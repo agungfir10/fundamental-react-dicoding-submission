@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Authenticated from "../components/Authenticated";
 import NoteItem from "../components/NoteItem";
 import NoteListEmpty from "../components/NoteListEmpty";
 import SearchBar from "../components/SearchBar";
 import { LocaleConsumer } from "../contexts/LocaleContext";
-import { getActiveNotes } from "../utils/network-data";
+import { getArchivedNotes } from "../utils/network-data";
 
-function HomePage() {
+function ArchivesPage() {
   const [query, setQuery] = useSearchParams();
-  const [state, setState] = useState({
-    loading: true,
-    notes: [],
-  });
+  const [state, setState] = useState({ loading: true, notes: [] });
 
   const handleOnSearch = (event) => {
     const value = event.target.value;
@@ -21,19 +17,19 @@ function HomePage() {
   };
 
   useEffect(() => {
-    async function loadActivesNotes() {
-      const { data } = await getActiveNotes();
-      setState({ notes: data, loading: false });
-    }
-    loadActivesNotes();
+    const loadArchiveNotes = async () => {
+      const { data } = await getArchivedNotes();
+      setState({ loading: false, notes: data });
+    };
+    loadArchiveNotes();
   }, []);
 
   return (
     <Authenticated>
       <LocaleConsumer>
         {({ lang }) => (
-          <section className="homepage">
-            <h2>{lang === "en" ? "Active Note" : "Catatan Aktif"}</h2>
+          <section className="archives-page">
+            <h2>{lang === "en" ? "Archive Notes" : "Catatan Arsip"}</h2>
             <SearchBar onSearch={handleOnSearch} />
             {state.loading && "Loading..."}
             {state.notes.length === 0 ? (
@@ -54,17 +50,6 @@ function HomePage() {
                     .map((note, index) => <NoteItem note={note} key={index} />)}
               </section>
             )}
-            <div className="homepage__action">
-              <Link to="/notes/new" preventScrollReset={true}>
-                <button
-                  className="action"
-                  type="button"
-                  title={lang === "en" ? "Add" : "Tambah"}
-                >
-                  <MdAdd />
-                </button>
-              </Link>
-            </div>
           </section>
         )}
       </LocaleConsumer>
@@ -72,4 +57,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default ArchivesPage;

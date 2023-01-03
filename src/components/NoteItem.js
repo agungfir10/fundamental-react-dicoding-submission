@@ -2,9 +2,13 @@ import parser from "html-react-parser";
 import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
+import LocaleContext from "../contexts/LocaleContext";
+import { showFormattedDate } from "../utils";
 
 function NoteItem({ note: { id, title, createdAt, body } }) {
-  const date = new Date(createdAt).toDateString();
+  const { lang } = React.useContext(LocaleContext);
+  const locale = lang === "en" ? "en-US" : "id-ID";
+  const date = showFormattedDate(createdAt, locale);
 
   return (
     <article className="note-item">

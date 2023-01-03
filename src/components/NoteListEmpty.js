@@ -1,19 +1,15 @@
-import PropTypes from "prop-types";
 import React from "react";
+import LocaleContext from "../contexts/LocaleContext";
 
-function NoteListEmpty({ message }) {
+function NoteListEmpty() {
+  const { lang } = React.useContext(LocaleContext);
+
+  const messageLocale = lang === "en" ? "No Notes" : "Tidak ada catatan";
   return (
     <section className="notes-list-empty">
-      <p className="notes-list__empty">{message}</p>
+      <p className="notes-list__empty">{messageLocale}</p>
     </section>
   );
 }
 
-NoteListEmpty.defaultProps = {
-  message: "Tidak ada catatan",
-};
-
-NoteListEmpty.propTypes = {
-  message: PropTypes.string,
-};
 export default NoteListEmpty;
