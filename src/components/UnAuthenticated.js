@@ -6,7 +6,9 @@ import { AuthConsumer } from "../contexts/AuthContext";
 function UnAuthenticated({ children }) {
   return (
     <AuthConsumer>
-      {({ authUser }) => (authUser === null ? children : <Navigate to="/" />)}
+      {({ authUser }) =>
+        authUser === null ? children : <Navigate to="/dashboard" />
+      }
     </AuthConsumer>
   );
 }

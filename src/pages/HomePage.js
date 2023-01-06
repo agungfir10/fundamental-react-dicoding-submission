@@ -21,11 +21,11 @@ function HomePage() {
   };
 
   useEffect(() => {
-    async function loadActivesNotes() {
-      const { data } = await getActiveNotes();
-      setState({ notes: data, loading: false });
-    }
-    loadActivesNotes();
+    // async function loadActivesNotes() {
+    //   const { data } = await getActiveNotes();
+    //   setState({ notes: data, loading: false });
+    // }
+    // loadActivesNotes();
   }, []);
 
   return (
